@@ -32,6 +32,10 @@
             android:name=".expandableActivity"
             android:label="@string/title_activity_expandable" >
         </activity>
+        <activity
+            android:name=".dragdropActivity"
+            android:label="@string/title_activity_dragdrop" >
+        </activity>
     </application>
 
 </manifest>

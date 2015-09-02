@@ -9,23 +9,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by stone on 2015/8/26.
+ * Created by stone on 2015/9/2.
  */
-public class LinearAdapter extends RecyclerView.Adapter<LinearViewHolder> {
+public class dragdropAdapter extends RecyclerView.Adapter<LinearViewHolder> {
     ArrayList<LinearItem> datalist = new ArrayList<LinearItem>();
     Context mContext;
     Activity mActivity;
-    public LinearAdapter(ArrayList<LinearItem> datalist,Context mContext,Activity mActivity){
+    public dragdropAdapter(ArrayList<LinearItem> datalist,Context mContext,Activity mActivity){
         this.datalist = datalist;
         this.mContext = mContext;
         this.mActivity = mActivity;
@@ -56,9 +50,9 @@ public class LinearAdapter extends RecyclerView.Adapter<LinearViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra("item",item);
+                intent.putExtra("item", item);
                 View shareView = viewHolder.card;
-                intent.setClass(mContext,CardViewActivity.class);
+                intent.setClass(mContext, CardViewActivity.class);
                 ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(mActivity, shareView , "card");
                 mContext.startActivity(intent, transitionActivityOptions.toBundle());
             }
@@ -96,32 +90,21 @@ public class LinearAdapter extends RecyclerView.Adapter<LinearViewHolder> {
             this.notifyItemRemoved((int)number);
         }
     }
-}
-class LinearViewHolder extends RecyclerView.ViewHolder{
-    ImageView image;
-    TextView text1;
-    TextView text2;
-    CardView card;
-    public LinearViewHolder(View itemView) {
-        super(itemView);
-        image = (ImageView)itemView.findViewById(R.id.imageView);
-        text1 = (TextView)itemView.findViewById(R.id.textView);
-        text2 = (TextView)itemView.findViewById(R.id.textView2);
-        card = (CardView)itemView.findViewById(R.id.Card);
+    void onItemMove(int fromPosition, int toPosition){
+        LinearItem a;
+        LinearItem b;
+        try{
+            a = (LinearItem)datalist.get(fromPosition).clone();
+            b = (LinearItem)datalist.get(toPosition).clone();
+            datalist.set(fromPosition,b);
+            datalist.set(toPosition,a);
+        }catch(Exception ex){
+            System.out.println("ex:"+ex.toString());
+        }
+        notifyItemMoved(fromPosition,toPosition);
     }
-}
-class LinearItem implements Serializable,Cloneable {
-    int imageId;
-    String text1;
-    String text2;
-    public LinearItem(int imageId, String text1, String text2){
-        this.imageId = imageId;
-        this.text1 = text1;
-        this.text2 = text2;
-    }
-    protected Object clone() throws CloneNotSupportedException {
-        LinearItem clone = (LinearItem)super.clone();
-        return clone;
-
+    void onItemDismiss(int position){
+        datalist.remove(position);
+        notifyItemRemoved(position);
     }
 }

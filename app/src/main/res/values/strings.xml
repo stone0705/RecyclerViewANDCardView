@@ -8,5 +8,6 @@
     <string name="title_activity_card_view">CardViewActivity</string>
     <string name="title_activity_big">bigActivity</string>
     <string name="title_activity_expandable">expandableActivity</string>
+    <string name="title_activity_dragdrop">dragdropActivity</string>
 
 </resources>

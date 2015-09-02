@@ -14,6 +14,7 @@ public class MainActivity extends Activity {
     Button linear;
     Button big;
     Button expand;
+    Button drag;
     Intent intent = new Intent();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class MainActivity extends Activity {
         linear = (Button)findViewById(R.id.linear);
         big = (Button)findViewById(R.id.big);
         expand = (Button)findViewById(R.id.expand);
+        drag = (Button)findViewById(R.id.drag);
         setListener();
 
     }
@@ -68,6 +70,14 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 intent.setClass(MainActivity.this,expandableActivity.class);
                 MainActivity.this.startActivity(intent);
+            }
+        });
+        drag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.setClass(MainActivity.this,dragdropActivity.class);
+                MainActivity.this.startActivity(intent);
+
             }
         });
     }
