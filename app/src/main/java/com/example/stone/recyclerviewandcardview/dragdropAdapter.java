@@ -5,7 +5,10 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,18 +93,45 @@ public class dragdropAdapter extends RecyclerView.Adapter<LinearViewHolder> {
             this.notifyItemRemoved((int)number);
         }
     }
-    void onItemMove(int fromPosition, int toPosition){
+    void onItemMove(int fromPosition, int toPosition,RecyclerView recyclerView){
         LinearItem a;
         LinearItem b;
-        try{
-            a = (LinearItem)datalist.get(fromPosition).clone();
-            b = (LinearItem)datalist.get(toPosition).clone();
-            datalist.set(fromPosition,b);
-            datalist.set(toPosition,a);
-        }catch(Exception ex){
-            System.out.println("ex:"+ex.toString());
+        if(recyclerView.getLayoutManager() instanceof GridLayoutManager || recyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager){
+            try{
+                System.out.println("from:" + fromPosition + "  to:" + toPosition);
+                if(fromPosition > toPosition){
+                    LinearItem c = (LinearItem)datalist.get(fromPosition).clone();
+                    a = (LinearItem)datalist.get(toPosition).clone();
+                    for(int i = toPosition ; i<fromPosition; i++){
+                        b = (LinearItem)datalist.get(i+1).clone();
+                        datalist.set(i+1,a);
+                        a = b;
+                    }
+                    datalist.set(toPosition,c);
+                }else{
+                    LinearItem c = (LinearItem)datalist.get(fromPosition).clone();
+                    a = (LinearItem)datalist.get(toPosition).clone();
+                    for(int i = toPosition;i>fromPosition;i--){
+                        b = (LinearItem)datalist.get(i-1).clone();
+                        datalist.set(i-1,a);
+                        a = b;
+                    }
+                    datalist.set(toPosition,c);
+                }
+            }catch(Exception ex){
+                System.out.println(ex.toString());
+            }
+        }else{
+            try{
+                a = (LinearItem)datalist.get(fromPosition).clone();
+                b = (LinearItem)datalist.get(toPosition).clone();
+                datalist.set(fromPosition,b);
+                datalist.set(toPosition, a);
+            }catch(Exception ex){
+                System.out.println("ex:"+ex.toString());
+            }
         }
-        notifyItemMoved(fromPosition,toPosition);
+        notifyItemMoved(fromPosition, toPosition);
     }
     void onItemDismiss(int position){
         datalist.remove(position);
