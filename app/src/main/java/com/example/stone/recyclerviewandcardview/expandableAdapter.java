@@ -44,11 +44,18 @@ public class expandableAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if(holder instanceof parentViewHolder){
+            onBindParentViewHolder((parentViewHolder)holder,position, dataList.get(position));
+        }else{
+            onBindChildViewHolder((childViewHolder)holder,position,dataList.get(position));
+        }
+        /*
         if(dataList.get(position) instanceof parentItem){
             onBindParentViewHolder((parentViewHolder)holder,position, dataList.get(position));
         }else{
             onBindChildViewHolder((childViewHolder)holder,position,dataList.get(position));
         }
+        */
     }
 
     public void onBindParentViewHolder(final parentViewHolder vh, final int position,Object parentitem){

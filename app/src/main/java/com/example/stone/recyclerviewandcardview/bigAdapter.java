@@ -46,6 +46,7 @@ public class bigAdapter extends RecyclerView.Adapter<bigHolder> {
         viewHolder.text3.setText(item.text3);
         CardView.LayoutParams params = new CardView.LayoutParams(CardView.LayoutParams.MATCH_PARENT, CardView.LayoutParams.WRAP_CONTENT);
         params.setMargins(20,20,20,20);
+        viewHolder.card.setContentPadding(100,100,100,100);
         viewHolder.card.setLayoutParams(params);
         if(item.isclick){
             viewHolder.text3.setVisibility(View.VISIBLE);

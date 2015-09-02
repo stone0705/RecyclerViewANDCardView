@@ -18,7 +18,8 @@ public class expandableActivity extends Activity {
     RecyclerView recyclerView;
     expandableAdapter mAdapter;
     ArrayList<Object> datalist;
-    int count = 0;
+    int count = 1;
+    int itemcount =0;
     Button add, remove, removeAll, change;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +109,8 @@ public class expandableActivity extends Activity {
                         break;
                     }
                 }
+                itemcount++;
+                msg = itemcount+msg;
                 mAdapter.additem(new parentItem(child,msg));
                 recyclerView.smoothScrollToPosition(mAdapter.getItemCount());
             }
